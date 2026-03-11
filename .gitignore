@@ -1,0 +1,22 @@
+# Environment and secrets
+dotfiles/config.env
+*.env
+!config.env.example
+
+# Editor and IDE
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Backups created by setup scripts
+*.bak
+*.orig
