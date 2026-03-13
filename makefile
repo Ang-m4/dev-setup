@@ -1,4 +1,4 @@
-.PHONY: help lint setup clean
+.PHONY: help lint test setup clean
 
 SHELL := /bin/bash
 
@@ -9,10 +9,16 @@ help: ## Show this help
 lint: ## Run ShellCheck on all shell scripts
 	@ln -sf .config/.shellcheckrc .shellcheckrc
 	@echo "==> Running ShellCheck..."
-	@find . -name '*.sh' -not -path './.git/*' -print0 | xargs -0 shellcheck; \
+	@find . \( -name '*.sh' -o -name '*.bash' \) -not -path './.git/*' -print0 | xargs -0 shellcheck; \
 		status=$$?; \
 		rm -f .shellcheckrc; \
 		exit $$status
+
+test: ## Run BATS tests inside Docker
+	@echo "==> Building test container..."
+	@docker build -t dev-setup-test .
+	@echo "==> Running tests..."
+	@docker run --rm dev-setup-test bats --recursive tests/
 
 setup: ## Run full setup
 	@echo "==> Running setup..."
