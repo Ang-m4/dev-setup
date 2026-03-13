@@ -1,0 +1,34 @@
+# Core utilities
+curl
+wget
+git
+vim
+htop
+tree
+unzip
+zip
+jq
+tmux
+make
+software-properties-common
+apt-transport-https
+ca-certificates
+gnupg
+lsb-release
+
+# Networking & SSH
+openssh-server
+net-tools
+dnsutils
+
+# Build essentials
+build-essential
+pkg-config
+libssl-dev
+libffi-dev
+
+# System monitoring & debugging
+strace
+sysstat
+iotop
+ncdu

@@ -30,10 +30,13 @@ else
     sudo apt-get autoremove -y -qq
 fi
 
-echo "==> Installing unattended-upgrades..."
-sudo apt-get install -y -qq unattended-upgrades
+if [[ "${DOTFILES_ENV}" == "test" ]]; then
+    echo "==> Dry-run: verifying unattended-upgrades is available..."
+    sudo apt-get install --dry-run unattended-upgrades
+else
+    echo "==> Installing unattended-upgrades..."
+    sudo apt-get install -y -qq unattended-upgrades
 
-if [[ "${DOTFILES_ENV}" != "test" ]]; then
     echo "==> Enabling unattended-upgrades..."
     sudo dpkg-reconfigure -f noninteractive unattended-upgrades
 fi
