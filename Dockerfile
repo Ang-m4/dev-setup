@@ -5,6 +5,9 @@ FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+RUN apt-get update -qq \
+    && apt-get install -y -qq bats sudo
+
 # Create a non-root test user
 RUN useradd -m -s /bin/bash testuser \
     && echo "testuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers

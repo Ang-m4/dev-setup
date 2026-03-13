@@ -1,7 +1,8 @@
 # Environment and secrets
-dotfiles/config.env
+config/config.env
 *.env
 !config.env.example
+CLAUDE.md
 
 # Editor and IDE
 *.swp
@@ -20,3 +21,6 @@ Thumbs.db
 # Backups created by setup scripts
 *.bak
 *.orig
+
+# Local documentation
+docs/
