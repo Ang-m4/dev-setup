@@ -30,6 +30,7 @@ setup() {
 }
 
 @test "03-locale-timezone: validates timezone exists in zoneinfo" {
+    # shellcheck disable=SC2030
     export TIMEZONE="Invalid/Nowhere"
     run bash scripts/base/03-locale-timezone.bash
     [[ "$status" -ne 0 ]]
@@ -43,5 +44,6 @@ setup() {
 
 @test "03-locale-timezone: dry-run timezone symlink in test mode" {
     run bash scripts/base/03-locale-timezone.bash
+    # shellcheck disable=SC2031
     [[ "$output" == *"Dry-run: /etc/localtime -> /usr/share/zoneinfo/${TIMEZONE}"* ]]
 }
