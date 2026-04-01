@@ -26,12 +26,7 @@ if [[ ${#packages[@]} -eq 0 ]]; then
     exit 0
 fi
 
-if [[ "${DOTFILES_ENV:-production}" == "test" ]]; then
-    echo "==> Dry-run: verifying ${#packages[@]} packages are available..."
-    sudo apt-get install --dry-run "${packages[@]}"
-else
-    echo "==> Installing ${#packages[@]} packages..."
-    sudo apt-get install -y -qq "${packages[@]}"
-fi
+echo "==> Installing ${#packages[@]} packages..."
+sudo -E apt-get install -y -qq "${packages[@]}"
 
 echo "==> Package installation complete."
