@@ -4,7 +4,6 @@
 # but cloud images and minimal installs often default to C.UTF-8 / Etc/UTC.
 #
 # Usage: bash scripts/base/03-locale-timezone.bash
-#        DOTFILES_ENV=test bash scripts/base/03-locale-timezone.bash
 
 set -euo pipefail
 
@@ -15,8 +14,6 @@ CONFIG_DIR="$(cd "${SCRIPT_DIR}/../../config" && pwd)"
 if [[ -f "${CONFIG_DIR}/config.env" ]]; then
     source "${CONFIG_DIR}/config.env"
 fi
-
-DOTFILES_ENV="${DOTFILES_ENV:-production}"
 
 if [[ -z "${LOCALE:-}" ]]; then
     echo "ERROR: LOCALE is not set in config.env" >&2
@@ -34,18 +31,12 @@ if [[ ! -f "/usr/share/zoneinfo/${TIMEZONE}" ]]; then
 fi
 
 echo "==> Setting locale to ${LOCALE}..."
-if [[ "${DOTFILES_ENV}" == "test" ]]; then
-    sudo apt-get install --dry-run locales
-else
-    sudo locale-gen "${LOCALE}"
-    sudo update-locale LANG="${LOCALE}"
-fi
+sudo -E apt-get install -y -qq locales
+sudo locale-gen "${LOCALE}"
+sudo update-locale LANG="${LOCALE}"
 
 echo "==> Setting timezone to ${TIMEZONE}..."
-if [[ "${DOTFILES_ENV}" == "test" ]]; then
-    echo "==> Dry-run: /etc/localtime -> /usr/share/zoneinfo/${TIMEZONE}"
-else
-    sudo timedatectl set-timezone "${TIMEZONE}"
-fi
+sudo ln -sf "/usr/share/zoneinfo/${TIMEZONE}" /etc/localtime
+echo "${TIMEZONE}" | sudo tee /etc/timezone > /dev/null
 
 echo "==> Locale and timezone configured."

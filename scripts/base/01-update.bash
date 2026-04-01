@@ -3,42 +3,22 @@
 # configures unattended-upgrades for automatic security patches.
 #
 # Usage: bash scripts/base/01-update.bash
-#        DOTFILES_ENV=test bash scripts/base/01-update.bash
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_DIR="$(cd "${SCRIPT_DIR}/../../config" && pwd)"
+echo "==> Updating package index..."
+sudo -E apt-get update -qq
 
-# shellcheck source=/dev/null
-if [[ -f "${CONFIG_DIR}/config.env" ]]; then
-    source "${CONFIG_DIR}/config.env"
-fi
+echo "==> Upgrading installed packages..."
+sudo -E apt-get upgrade -y -qq
 
-DOTFILES_ENV="${DOTFILES_ENV:-production}"
+echo "==> Removing unused packages..."
+sudo -E apt-get autoremove -y -qq
 
-if [[ "${DOTFILES_ENV}" == "test" ]]; then
-    echo "==> Test environment detected, skipping system update and upgrade."
-else
-    echo "==> Updating package index..."
-    sudo apt-get update -qq
+echo "==> Installing unattended-upgrades..."
+sudo -E apt-get install -y -qq unattended-upgrades
 
-    echo "==> Upgrading installed packages..."
-    sudo apt-get upgrade -y -qq
-
-    echo "==> Removing unused packages..."
-    sudo apt-get autoremove -y -qq
-fi
-
-if [[ "${DOTFILES_ENV}" == "test" ]]; then
-    echo "==> Dry-run: verifying unattended-upgrades is available..."
-    sudo apt-get install --dry-run unattended-upgrades
-else
-    echo "==> Installing unattended-upgrades..."
-    sudo apt-get install -y -qq unattended-upgrades
-
-    echo "==> Enabling unattended-upgrades..."
-    sudo dpkg-reconfigure -f noninteractive unattended-upgrades
-fi
+echo "==> Enabling unattended-upgrades..."
+sudo -E dpkg-reconfigure -f noninteractive unattended-upgrades
 
 echo "==> System update complete."

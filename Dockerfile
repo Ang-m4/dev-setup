@@ -6,13 +6,14 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -qq \
-    && apt-get install -y -qq bats sudo
+    && apt-get install -y -qq sudo
 
 # Create a non-root test user
 RUN useradd -m -s /bin/bash testuser \
     && echo "testuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 COPY . /home/testuser/custom-instance
+COPY config/config.env /home/testuser/custom-instance/config/config.env
 RUN chown -R testuser:testuser /home/testuser/custom-instance
 
 USER testuser

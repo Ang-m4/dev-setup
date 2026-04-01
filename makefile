@@ -14,11 +14,11 @@ lint: ## Run ShellCheck on all shell scripts
 		rm -f .shellcheckrc; \
 		exit $$status
 
-test: ## Run BATS tests inside Docker
+test: ## Run setup scripts and tests inside Docker
 	@echo "==> Building test container..."
 	@docker build -t dev-setup-test .
-	@echo "==> Running tests..."
-	@docker run --rm dev-setup-test bats --recursive tests/
+	@echo "==> Running bootstrap..."
+	@docker run --rm dev-setup-test bash bootstrap.bash
 
 setup: ## Run full setup
 	@echo "==> Running setup..."
