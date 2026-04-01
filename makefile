@@ -18,7 +18,7 @@ test: ## Run setup scripts and tests inside Docker
 	@echo "==> Building test container..."
 	@docker build -t dev-setup-test .
 	@echo "==> Running bootstrap..."
-	@docker run --rm dev-setup-test bash bootstrap.bash
+	@docker run --rm --privileged dev-setup-test bash bootstrap.bash
 
 setup: ## Run full setup
 	@echo "==> Running setup..."
