@@ -15,6 +15,7 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 SCRIPTS=(
     scripts/base
+    scripts/security
 )
 
 PASS=0
