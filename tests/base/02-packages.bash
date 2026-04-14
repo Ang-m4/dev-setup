@@ -1,24 +1,20 @@
 #!/usr/bin/env bash
-# Verifies that 02-packages.bash installed the expected packages.
-# Checks a representative sample from each category in packages.txt.
+# Verifies that 02-packages.bash installed every package listed in
+# packages.txt. Reads the same file the script uses and checks each
+# package via dpkg -s.
 
 set -euo pipefail
 
-echo "  Checking core packages..."
-command -v curl > /dev/null
-command -v git > /dev/null
-command -v jq > /dev/null
-command -v vim > /dev/null
-command -v tmux > /dev/null
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_DIR="$(cd "${SCRIPT_DIR}/../../config" && pwd)"
 
-echo "  Checking networking packages..."
-command -v dig > /dev/null
+PACKAGES_FILE="${PACKAGES_FILE:-${CONFIG_DIR}/packages.txt}"
 
-echo "  Checking build packages..."
-command -v make > /dev/null
-command -v gcc > /dev/null
+mapfile -t packages < <(grep -v '^\s*#' "${PACKAGES_FILE}" | grep -v '^\s*$')
 
-echo "  Checking monitoring packages..."
-command -v ncdu > /dev/null
+echo "  Checking ${#packages[@]} packages from packages.txt..."
+for pkg in "${packages[@]}"; do
+    dpkg -s "${pkg}" > /dev/null 2>&1 || { echo "FAIL: ${pkg} is not installed" >&2; exit 1; }
+done
 
 echo "  All checks passed."
