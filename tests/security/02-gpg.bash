@@ -26,4 +26,12 @@ echo "  Checking key UID contains name and email..."
 echo "  Checking key uses ed25519 algorithm..."
 [[ "${GPG_OUTPUT}" == *"ed25519"* ]]
 
+echo "  Checking key can sign and verify data..."
+TMPFILE="$(mktemp)"
+echo "gpg-test" > "${TMPFILE}"
+gpg --batch --pinentry-mode loopback --passphrase '' \
+    --local-user "${GIT_USER_EMAIL}" --sign "${TMPFILE}"
+gpg --batch --verify "${TMPFILE}.gpg" 2>&1 | grep -q "Good signature"
+rm -f "${TMPFILE}" "${TMPFILE}.gpg"
+
 echo "  All checks passed."
