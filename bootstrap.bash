@@ -17,6 +17,7 @@ SCRIPTS=(
     scripts/base
     scripts/security
     scripts/dev
+    scripts/services
 )
 
 PASS=0
