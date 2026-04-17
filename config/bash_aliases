@@ -1,0 +1,51 @@
+# Bash aliases — copied to ~/.bash_aliases by scripts/dev/06-shell.bash.
+# Edit this file to change your aliases, then re-run the script (or copy manually).
+
+# --- Navigation ---
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias ll='ls -lah --color=auto'
+alias la='ls -A --color=auto'
+alias l='ls -CF --color=auto'
+
+# --- System ---
+alias c='clear'
+alias h='history'
+alias reload='source ~/.bashrc'
+alias path='echo -e ${PATH//:/\\n}'
+alias ports='ss -tulanp'
+alias myip='curl -fsSL https://api.ipify.org && echo'
+
+# --- Git ---
+alias gs='git status'
+alias gd='git diff'
+alias gds='git diff --staged'
+alias ga='git add'
+alias gap='git add -p'
+alias gc='git commit'
+alias gcm='git commit -m'
+alias gco='git checkout'
+alias gcb='git checkout -b'
+alias gb='git branch'
+alias gp='git push'
+alias gpl='git pull'
+alias gf='git fetch --all --prune'
+alias glog='git log --oneline --graph --decorate --all'
+alias gst='git stash'
+alias gsp='git stash pop'
+
+# --- Docker ---
+alias d='docker'
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias di='docker images'
+alias dex='docker exec -it'
+alias dlog='docker logs -f'
+alias dc='docker compose'
+alias dcu='docker compose up -d'
+alias dcd='docker compose down'
+alias dcr='docker compose restart'
+alias dcl='docker compose logs -f'
+alias dcps='docker compose ps'
+alias dprune='docker system prune -af --volumes'

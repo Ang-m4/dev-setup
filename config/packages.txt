@@ -32,3 +32,6 @@ strace
 sysstat
 iotop
 ncdu
+
+# Fonts
+fontconfig
